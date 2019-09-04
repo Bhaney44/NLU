@@ -77,14 +77,17 @@ epochs = 1000
 # training loop
 for epoch in range(epochs):
     for i, (x_i, y_i) in enumerate(sine_loader):
+        # forward pass
+        y_hat_i = model(x_i)            
+        # compute the loss and perform the backward pass        
+        loss = criterion(y_hat_i, y_i)
 
-        y_hat_i = model(x_i)            # forward pass
-                                
-        loss = criterion(y_hat_i, y_i)  # compute the loss and perform the backward pass
-
-        optimizer.zero_grad()           # cleans the gradients
-        loss.backward()                 # computes the gradients
-        optimizer.step()                # update the parameters
+        # cleans the gradients
+        optimizer.zero_grad()
+        # computes the gradients
+        loss.backward()
+        # update the parameters
+        optimizer.step()                
 
     if epoch % 20:
         plt.scatter(x_i.data.cpu().numpy(), y_hat_i.data.cpu().numpy())
